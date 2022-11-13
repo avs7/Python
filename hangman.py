@@ -81,7 +81,7 @@ wrong_word = ""
 game_over = False
 
 for word in words_list:
-  if len(word) <= 3:
+  if len(word) <= 3 and len(word) > 2:
     easy.append(word)
   elif len(word) > 3 and len(word) <= 5:
     medium.append(word)
