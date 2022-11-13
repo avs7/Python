@@ -67,12 +67,15 @@ logo = '''
                     __/ |                      
                    |___/    '''
 
-temp_words = ["hot", "cold", "dog", "cat", "house", "mouse", "random", "animal", "python", "notebook", "penny", "pen", "water"]
+words_file = open("words.txt", "r")
+data = words_file.read()
+words_list = data.split("\n")
+
 lives = 7
 guess_arr = []
 wrong_guesses =[]
 wrong_word = ""
-word = random.choice(temp_words)
+word = random.choice(words_list)
 game_over = False
 
 print(logo)
