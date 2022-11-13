@@ -74,12 +74,36 @@ words_list = data.split("\n")
 lives = 7
 guess_arr = []
 wrong_guesses =[]
+easy = []
+medium = []
+hard = []
 wrong_word = ""
-word = random.choice(words_list)
 game_over = False
 
+for word in words_list:
+  if len(word) <= 3:
+    easy.append(word)
+  elif len(word) > 3 and len(word) <= 5:
+    medium.append(word)
+  else:
+    hard.append(word)
+
+
 print(logo)
+difficulty = input("\n***** Select level: 1 - Easy, 2 - Medium, 3 - Hard *****\n")
+
+if difficulty == "1":
+  word = random.choice(easy)
+elif difficulty == "2":
+  word = random.choice(medium)
+elif difficulty == "3":
+  word = random.choice(hard)
+else:
+  print("Invalid entry!")
+  difficulty = input(int("\n***** Select level: 1 - Easy, 2 - Medium, 3 - Hard *****\n"))
+
 print(word)
+
 
 for _ in word:
   guess_arr.append("_")
