@@ -1,27 +1,111 @@
 import random
 
-temp_words = ["hot", "cold", "dog", "cat", "house", "mouse", "random"]
+stages = ['''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+''']
 
-def new_game():
-  rand_index = random.randint(0, len(temp_words) - 1)
-  word = temp_words[rand_index]
-  word_arr = list(word)
-  guess_arr = []
-  for letter in word_arr:
-    guess_arr.append("_")
-  guess_word = "  ".join(guess_arr)
+logo = ''' 
+ _                                             
+| |                                            
+| |__   __ _ _ __   __ _ _ __ ___   __ _ _ __  
+| '_ \ / _` | '_ \ / _` | '_ ` _ \ / _` | '_ \ 
+| | | | (_| | | | | (_| | | | | | | (_| | | | |
+|_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
+                    __/ |                      
+                   |___/    '''
 
-  print("********** Let's play hangman **********")
-  print(word)
-  print(f"\n   WORD: {guess_word}   \n\n")
-  guess = input("Guess a letter: ")
+temp_words = ["hot", "cold", "dog", "cat", "house", "mouse", "random", "animal", "python", "notebook", "penny", "pen", "water"]
+lives = 7
+guess_arr = []
+wrong_guesses =[]
+wrong_word = ""
+word = random.choice(temp_words)
+game_over = False
 
-  if guess.lower() in word_arr:
-    print("good guess")
+print(logo)
+print(word)
+
+for _ in word:
+  guess_arr.append("_")
+guess_word = "  ".join(guess_arr)
+print(f"\n   WORD: {guess_word}   \n\n")
+
+while not game_over:
+  guess = input("Guess a letter: ").lower()
+  if guess in word:
+    print("Good guess!")
+    for position in range(len(word)):
+      if word[position] == guess:
+        guess_arr[position] = guess
+        guess_word = "  ".join(guess_arr)
+        print(f"\n   WORD: {guess_word}   \n\n")
   else:
-    print("bad guess")
-
-  print(guess)
+    lives -= 1
+    if lives > 0:
+      wrong_guesses += guess
+      wrong_word = "  ".join(wrong_guesses)
+      print(stages[lives])
+      print(f"\nWrong letters: {wrong_word}")
+      print(f"\n   WORD: {guess_word}   \n\n")
+      print(f"Bad guess! You have {lives} lives left\n")
+    else:
+      print("\n ❗❗❗ You lose! ❗❗❗ ")
+      print(stages[lives])
+      game_over = True
   
-
-new_game()
+  if "_" not in guess_arr:
+    game_over = True
+    print("You win!")
