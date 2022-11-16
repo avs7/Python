@@ -20,6 +20,7 @@ player = []
 player_total = 0
 computer_total = 0
 move = ''
+winner = ''
 
 def totals():
   global player_total
@@ -41,27 +42,32 @@ def deal():
 
 def decision():
   global move
+  print(f"     Your cards: {player}, current score: {player_total}\n     Computer's first card: {computer[0]}\n")
   move = input("Type 'y' to get another card, type 'n' to pass: ")
   return move
 
 def play():
   #for testing
-  print(computer)
+  print(f"\n{computer}\n")
+
   totals()
-  print(f"     Your cards: {player}, current score: {player_total}\n     Computer's first card: {computer[0]}")
   decision()
   if move == 'n':
+    pick_winner()
     display_result()
   elif move == 'y':
     draw_card()
-    if player_total < 21:
-      play()
-    else:
-      pick_winner()
-      display_result()
+
+def again():
+  play_again = input("Would you like to play again? 'y' or 'n': ")
+  if play_again == 'y':
+    deal()
+    play()
+  elif play_again == 'n':
+    os.system('cls')
 
 def pick_winner():
-  winner = ""
+  global winner
   if player_total > computer_total and player_total <= 21:
     winner = 'player'
   elif player_total < computer_total or player_total > 21:
@@ -71,34 +77,27 @@ def pick_winner():
       winner = 'computer'
   else:
     winner = "tie"
-  return winner
 
 def display_result():
-  if pick_winner() == 'player':
+  if winner == 'player':
     print(f"\nComputer had: {computer}")
     print(f"You had: {player}\n")
     print("◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦")
     print("◦   YOU WIN!  ◦")
     print("◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦")
-  elif pick_winner() == 'computer':
+  elif winner == 'computer':
     print(f"\nComputer had: {computer}\n")
     print(f"You had: {player}")
     print("◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦")
     print("◦  YOU LOST!  ◦")
     print("◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦")
-  elif pick_winner() == 'tie':
+  elif winner == 'tie':
     print(f"\nComputer had: {computer}\n")
     print(f"You had: {player}")
     print("◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦")
     print("◦ IT'S A TIE! ◦")
     print("◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦")
-
-  again = input("Would you like to play again? 'y' or 'n': ")
-  if again == 'y':
-    deal()
-    play()
-  elif again == 'n':
-    os.system('cls')
+  again()
 
 def draw_card():
   global player
@@ -114,7 +113,7 @@ def draw_card():
   totals()
   if player_total >= 21:
     pick_winner()
-    #display_result()
+    display_result()
   elif player_total < 21:
     play()
 
