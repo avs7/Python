@@ -1,4 +1,5 @@
 import random
+import numpy
 
 logo = """
 .------.            _     _            _    _            _    
@@ -24,6 +25,44 @@ def start():
     computer.append(random.choice(cards))
 
 start()
-print(computer, player)
 
+player_total = numpy.sum(player)
+computer_total = numpy.sum(computer)
 
+#for testing
+print(computer)
+
+print(f"     Your cards: {player}, current score: {player_total}\n     Computer's first card: {computer[0]}")
+
+move = input("Type 'y' to get another card, type 'n' to pass: ")
+
+def pick_winner():
+  winner = ""
+  if player_total > computer_total and player_total <= 21:
+    winner = 'player'
+  elif player_total < computer_total or player_total > 21:
+    winner = 'computer'
+  else:
+    winner = "tie"
+  return winner
+
+def display_result():
+  if pick_winner() == 'player':
+    print(f"\nComputer had: {computer}")
+    print(f"You had: {player}")
+    print("YOU WIN!")
+  elif pick_winner() == 'computer':
+    print(f"\nComputer had: {computer}")
+    print(f"You had: {player}")
+    print("YOU LOST!")
+  elif pick_winner() == 'tie':
+    print(f"\nComputer had: {computer}")
+    print(f"You had: {player}")
+    print("IT'S A TIE!")
+
+# def draw_card():
+
+if move == 'n':
+  display_result()
+elif move == 'y':
+  print("test")
